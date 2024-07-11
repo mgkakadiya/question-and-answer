@@ -63,3 +63,172 @@
 - **Atomic Design** is a methodology for structuring design systems, starting from the smallest elements (atoms) and building up to full pages.
 - **Dumb** and **Smart Components** differentiate between UI-focused components that are purely presentational and logic-focused components that manage data and state.
 By using these concepts, developers can create more maintainable, scalable, and consistent front-end architectures.
+
+
+
+### `angular.json` File
+
+The `angular.json` file is a crucial configuration file for Angular projects, defining how the Angular CLI should build and serve your application. This file contains settings for various aspects of your Angular project, such as the build options, development server configurations, and test configurations. Here’s an overview of its key sections:
+
+## Overview of `angular.json`
+
+- **version**: Specifies the version of the Angular CLI that this configuration is compatible with.
+
+- **newProjectRoot**: Defines the directory where new projects will be created.
+
+- **projects**: Lists all projects in the workspace. Each project can have its own set of configurations. A project can be an application or a library.
+
+## Key Sections of a Project Configuration
+
+- **projectType**: Specifies the type of the project, either `application` or `library`.
+
+- **root**: The root directory for the project files.
+
+- **sourceRoot**: The root directory for the source files of the project.
+
+- **prefix**: A prefix that is applied to the selectors of components in this project to ensure they are unique.
+
+- **architect**: Contains the build targets and their configurations. The most common targets are `build`, `serve`, `test`, `lint`, and `e2e`.
+
+## Architect Targets
+
+1. **build**: Configuration for building the project.
+    - **builder**: The builder used for this target, typically `@angular-devkit/build-angular:browser`.
+    - **options**: Default options for the build target, such as `outputPath`, `index`, `main`, `tsConfig`, `assets`, `styles`, and `scripts`.
+    - **configurations**: Different configurations for the build, such as `production` or `development`. These can override the default options.
+
+2. **serve**: Configuration for serving the project locally.
+    - **builder**: The builder used for this target, typically `@angular-devkit/build-angular:dev-server`.
+    - **options**: Default options for serving the application, such as `port` and `proxyConfig`.
+    - **configurations**: Different configurations for serving, similar to the build target.
+
+3. **test**: Configuration for running unit tests.
+    - **builder**: The builder used for this target, typically `@angular-devkit/build-angular:karma`.
+    - **options**: Options for running tests, such as `main`, `polyfills`, `tsConfig`, `karmaConfig`, `assets`, `styles`, and `scripts`.
+
+4. **lint**: Configuration for linting the project.
+    - **builder**: The builder used for this target, typically `@angular-devkit/build-angular:tslint`.
+    - **options**: Options for linting, such as `tsConfig` and `exclude`.
+
+5. **e2e**: Configuration for running end-to-end tests.
+    - **builder**: The builder used for this target, typically `@angular-devkit/build-angular:protractor`.
+    - **options**: Options for running e2e tests, such as `protractorConfig`.
+
+## Example of `angular.json` Structure
+
+Here is a simplified example of what an `angular.json` file might look like:
+
+```json
+{
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "my-app": {
+      "projectType": "application",
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/my-app",
+            "index": "src/index.html",
+            "main": "src/main.ts",
+            "polyfills": "src/polyfills.ts",
+            "tsConfig": "tsconfig.app.json",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
+            "styles": [
+              "src/styles.css"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "my-app:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "my-app:build:production"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "src/test.ts",
+            "polyfills": "src/polyfills.ts",
+            "tsConfig": "tsconfig.spec.json",
+            "karmaConfig": "karma.conf.js",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
+            "styles": [
+              "src/styles.css"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "tsconfig.app.json",
+              "tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "e2e/protractor.conf.js",
+            "devServerTarget": "my-app:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "my-app:serve:production"
+            }
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "my-app"
+}
+
+
+
+- ### Summary
+- angular.json is a configuration file for Angular projects, defining how the Angular CLI should build and serve your application.
+- It includes settings for build options, development server configurations, test configurations, and more.
+- The file is organized into sections for projects, each of which can have multiple targets (e.g., build, serve, test) with their own configurations.
+
+Understanding and properly configuring the angular.json file is essential for effective Angular project management.
