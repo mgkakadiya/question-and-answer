@@ -283,3 +283,225 @@ Parameter decorators are used to define metadata for parameters of class methods
 - Decorators in NestJS provide a powerful way to add metadata and configure the behavior of classes, methods, properties, and parameters. They enable a declarative approach to defining routes, dependency injection, guards, and more, making it easier to build scalable and maintainable applications.
 
 
+# `forkJoin` in RxJS
+
+In RxJS, `forkJoin` is an operator that allows you to execute multiple observables concurrently and wait for all of them to complete. It waits for all observables provided as arguments to emit at least one value and then emits an array of the last values from each observable.
+
+## How `forkJoin` Works
+
+- It takes multiple observables as arguments or an array of observables.
+- It subscribes to each observable simultaneously.
+- It collects the last emitted value from each observable.
+- Once all observables complete (emit a complete notification), it emits an array containing the last emitted value from each observable.
+
+## Example Usage
+
+```typescript
+import { forkJoin, of } from 'rxjs';
+
+const observable1$ = of('Hello');
+const observable2$ = of('World');
+
+forkJoin({
+  first: observable1$,
+  second: observable2$
+}).subscribe({
+  next: ([result1, result2]) => {
+    console.log(`Combined result: ${result1} ${result2}`);
+  },
+  complete: () => {
+    console.log('All observables completed.');
+  }
+});
+```
+
+## In this example:
+
+- `forkJoin` combines `observable1$` and `observable2$`.
+- It waits for both observables to emit their values (`'Hello'` and `'World'` respectively).
+- Once both observables emit a complete notification, it outputs `Combined result: Hello World`.
+
+## Important Notes
+
+- If any observable provided to `forkJoin` does not emit at least one value and complete, `forkJoin` will never emit and will hang indefinitely.
+- `forkJoin` is often used in scenarios where you need to fetch data from multiple sources and wait for all responses before proceeding.
+- This operator is particularly useful for scenarios such as making multiple HTTP requests and combining their results, or combining data from different parts of an application where the order of completion matters.
+
+## Lifecycle Hooks
+
+After your application instantiates a component or directive by calling its constructor, Angular calls the hook methods you have implemented at the appropriate point in the lifecycle of that instance.
+
+- ngOnChanges
+- ngOnInit
+- ngDoCheck
+- ngAfterContentInit
+- ngAfterContentChecked
+- ngAfterViewInit
+- ngAfterViewChecked
+- ngOnDestroy
+
+## Async Pipe
+
+The async pipe subscribes to an Observable or Promise and returns the latest value it has emitted. When a new value is emitted, the async pipe marks the component to be checked for changes. When the component gets destroyed, the async pipe unsubscribes automatically to avoid potential memory leaks. When the reference of the expression changes, the async pipe automatically unsubscribes from the old Observable or Promise and subscribes to the new one.
+
+## Types of Pipes
+
+Angular pipes let you declare display-value transformations in your template HTML. A class with the @Pipe decorator defines a function that transforms input values to output values for display in a view.
+
+Angular defines various pipes, such as the date pipe and currency pipe.
+
+- AsyncPipe
+- CurrencyPipe
+- DatePipe
+- DecimalPipe
+- I18nPluralPipe
+- I18nSelectPipe
+- JsonPipe
+- KeyValuePipe
+- LowerCasePipe
+- PercentPipe
+- SlicePipe
+- TitleCasePipe
+- UpperCasePipe
+
+## What is ng-content and its purpose?
+
+The ng-content is used to insert the content dynamically inside the component that helps to increase component reusability.
+
+## What is Dependency Injection?
+
+Dependency Injection (DI) is a design pattern used in software development, including in frameworks like Angular, to manage the dependencies between different components or services. It enables the creation, management, and injection of dependencies into classes or components, rather than having the classes or components create the dependencies themselves.
+
+## Components and Directives Difference
+
+### Components
+
+- A component is a core concept in Angular and represents a self-contained, reusable UI element.
+- A component consists of a template, which defines the structure and layout of the component, and a TypeScript class, which defines the component's behavior and data.
+- Components have a view associated with them and are typically used to create UI elements such as forms, buttons, lists, etc.
+- Components have a lifecycle with hooks.
+
+### Directives
+
+- Directives are instructions in the DOM that extend or modify the behavior of existing elements or components.
+- Directives can be categorized into two types: structural and attribute directives.
+- Structural directives modify the structure of the DOM by adding, removing, or manipulating elements. Examples include ngIf, ngFor, and ngSwitch.
+- Attribute directives modify the behavior or appearance of an element. Examples include ngClass, ngStyle, and custom directives.
+- Directives do not have their own templates or styles.
+- Directives are typically used to add additional functionality, behavior, or styling to existing elements or components.
+- Directives can also have their own lifecycle hooks, such as ngOnInit, ngOnChanges, ngOnDestroy, etc., similar to components.
+
+## How to Unsubscribe in RxJS
+
+### Observables in Angular
+
+Angular makes use of observables as an interface to handle a variety of common asynchronous operations. For example:
+
+- The HTTP module uses observables to handle AJAX requests and responses.
+- The Router and Forms modules use observables to listen for and respond to user-input events.
+
+### Unsubscribing using unsubscribe() method:
+
+```typescript
+import { Observable, interval, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
+const myObservable = interval(1000); // Emits values every second
+
+const stopSignal = new Subject(); // Observable to signal when to stop
+
+myObservable
+  .pipe(takeUntil(stopSignal))
+  .subscribe(value => console.log(value));
+
+// Unsubscribe after some time
+setTimeout(() => {
+  stopSignal.next(); // Emit a value to stop the subscription
+}, 5000);
+```
+# Differences Between Promise and Observable
+
+## Promise
+Promises deal with one asynchronous event at a time. They represent a single value that will be resolved or rejected in the future.
+
+## Observable
+Observables handle a sequence of asynchronous events over a period of time. They can emit multiple values asynchronously and are cancellable.
+
+# JIT and AOT Compilation in Angular
+
+## Ahead-of-Time (AOT)
+AOT compiles your Angular application and libraries at build time. This has been the default since Angular 9.
+
+## Just-in-Time (JIT)
+In JIT, the Angular application is compiled in the browser during runtime, just before execution.
+
+# Type Narrowing
+
+Type narrowing reflects dynamic checks and predicates at runtime in the type-checker at compile time.
+
+# Inject in Angular
+
+@Inject is a parameter decorator in Angular used to resolve a token and inject a dependency into a constructor.
+
+# Unit Testing in Angular
+
+Angular unit testing involves testing small and isolated modules in your Angular application to ensure they work as expected.
+
+# Jasmine and Karma
+
+## Jasmine
+Jasmine is a free and open-source Behavior Driven Development (BDD) framework for testing JavaScript code.
+
+## Karma
+Karma is a task runner that executes Jasmine test codes in multiple real-time browsers from the command line.
+
+# Design Patterns
+
+Design patterns are reusable solutions to common problems in software design.
+
+# Design Patterns in Angular
+
+- MVC Pattern
+- Dependency Injection Pattern
+- SOLID Pattern
+- Strategy Pattern
+- Visitor Pattern
+- Singleton Pattern
+- Factory Pattern
+
+For more information on design patterns, visit [SourceMaking](https://sourcemaking.com/design_patterns).
+
+# Difference between Subject and BehaviorSubject
+
+## Subject
+A Subject in RxJS does not hold a value and simply emits values to its subscribers.
+
+### Example:
+```javascript
+const subject = new Rx.Subject();
+subject.next(1);
+subject.subscribe(x => console.log(x)); // Output: (nothing printed)
+```
+
+## BehaviorSubject example:
+
+### Example:
+```javascript
+const subject = new Rx.BehaviorSubject(0);
+subject.next(1);
+subject.subscribe(x => console.log(x)); // Output: (1)
+```
+
+### Additional Notes
+
+- **BehaviorSubject** should be created with an initial value: `new Rx.BehaviorSubject(1)`.
+- Consider **ReplaySubject** if you want the subject to replay previously published values.
+
+## Q. Difference between Subject and EventEmitter
+
+- Use **EventEmitter** when transferring data from a child component to a parent component.
+- Use **Subject** to transfer data between components regardless of their relationship.
+
+## Q. Use of Subject and BehaviorSubject in Angular
+
+The RxJS **Subject** and **BehaviorSubject** are unique observables that act as both observers and observables. They allow us to emit new values to the observable stream using the `next` method. All subscribers who subscribe to the subject will receive the same instance of the subject and hence the same values.
