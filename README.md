@@ -223,8 +223,7 @@ Here is a simplified example of what an `angular.json` file might look like:
   },
   "defaultProject": "my-app"
 }
-
-
+```
 
 ## Summary
 - angular.json is a configuration file for Angular projects, defining how the Angular CLI should build and serve your application.
