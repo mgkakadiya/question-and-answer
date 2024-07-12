@@ -232,3 +232,55 @@ Here is a simplified example of what an `angular.json` file might look like:
 - The file is organized into sections for projects, each of which can have multiple targets (e.g., build, serve, test) with their own configurations.
 
 Understanding and properly configuring the angular.json file is essential for effective Angular project management.
+
+
+
+- ### What is Decorator in nest js?
+
+# Decorators in NestJS
+
+In NestJS, a **decorator** is a special kind of declaration that can be attached to classes, methods, properties, or parameters. Decorators add metadata to these entities, which NestJS can use to provide additional functionality, like routing, dependency injection, and more. Decorators are a fundamental part of NestJS and are heavily inspired by Angular's decorator system.
+
+## Types of Decorators in NestJS
+
+### 1. Class Decorators
+
+Class decorators are used to define metadata for a class. They can configure how a class should be instantiated and used.
+
+- **`@Controller`**: Marks a class as a NestJS controller, which can handle incoming requests and return responses.
+
+  ```typescript
+  import { Controller, Get } from '@nestjs/common';
+
+  @Controller('cats')
+  export class CatsController {
+    @Get()
+    findAll() {
+      return 'This action returns all cats';
+    }
+  }
+
+@Injectable: Marks a class as a provider that can be injected as a dependency.
+
+### 2. Method Decorators
+Method decorators are used to define metadata for class methods. They can specify how a method should handle incoming requests or manage the method's behavior.
+
+@Get, @Post, @Put, @Delete, @Patch, @Options, @Head: These decorators define route handlers for HTTP methods.
+
+### 3. Property Decorators
+Property decorators are used to define metadata for class properties. They can configure how properties should be injected or managed.
+
+@Inject: Injects a specific provider into a property.
+@Autowired: Allows automatic dependency injection into properties (although this is less common and typically done via constructor injection).
+
+### 4. Parameter Decorators
+Parameter decorators are used to define metadata for parameters of class methods. They can extract specific information from the request and pass it as a parameter to the method.
+
+@Param: Extracts a route parameter.
+@Body: Extracts the body of a request.
+@Query: Extracts query parameters.
+
+### Summary
+- Decorators in NestJS provide a powerful way to add metadata and configure the behavior of classes, methods, properties, and parameters. They enable a declarative approach to defining routes, dependency injection, guards, and more, making it easier to build scalable and maintainable applications.
+
+
