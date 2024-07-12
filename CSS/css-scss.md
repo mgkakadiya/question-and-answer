@@ -234,3 +234,35 @@ Pseudo-classes are used to define the special states of an element. They are pre
 - **Pseudo-classes**: Allow you to style elements based on their state or position. Examples include `:hover`, `:focus`, `:active`, `:nth-child`, and `:not`.
 
 By leveraging pseudo-elements and pseudo-classes, you can create more dynamic and visually appealing web pages without additional HTML markup.
+
+
+# Difference Between SCSS and CSS
+
+SCSS (Sassy CSS) and CSS (Cascading Style Sheets) are both used for styling web pages, but they have some key differences:
+
+1. **Syntax:** 
+   - **CSS:** Uses a simple syntax with selectors and properties.
+   - **SCSS:** Uses a more powerful syntax with variables, nesting, mixins, and inheritance, which makes it more like a programming language.
+
+2. **Variables:**
+   - **CSS:** Does not support variables (until CSS Custom Properties were introduced).
+   - **SCSS:** Supports variables, allowing you to define reusable values throughout your stylesheet.
+
+3. **Nesting:**
+   - **CSS:** Does not support nesting of selectors.
+   - **SCSS:** Allows nesting of CSS selectors, making it easier to write and maintain styles for nested HTML elements.
+
+4. **Mixins and Inheritance:**
+   - **CSS:** Does not support mixins (until CSS preprocessors or CSS Custom Properties).
+   - **SCSS:** Supports mixins, allowing you to create reusable blocks of styles, and also supports inheritance.
+
+5. **Imports:**
+   - **CSS:** Imports are resolved at runtime, resulting in additional HTTP requests.
+   - **SCSS:** Imports are processed at compile time, reducing HTTP requests by combining imported files into a single CSS output file.
+
+6. **Browser Compatibility:**
+   - **CSS:** Widely supported by all browsers.
+   - **SCSS:** Needs to be compiled into standard CSS before being interpreted by browsers, but this process is easily automated in development workflows.
+
+In essence, SCSS is an extension of CSS that adds more power and flexibility to the stylesheet language, making it easier to write and maintain complex stylesheets for larger web projects.
+
