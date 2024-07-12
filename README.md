@@ -226,7 +226,7 @@ Here is a simplified example of what an `angular.json` file might look like:
 
 
 
-- ### Summary
+## Summary
 - angular.json is a configuration file for Angular projects, defining how the Angular CLI should build and serve your application.
 - It includes settings for build options, development server configurations, test configurations, and more.
 - The file is organized into sections for projects, each of which can have multiple targets (e.g., build, serve, test) with their own configurations.
@@ -235,7 +235,7 @@ Understanding and properly configuring the angular.json file is essential for ef
 
 
 
-- ### What is Decorator in nest js?
+### What is Decorator in nest js?
 
 # Decorators in NestJS
 
