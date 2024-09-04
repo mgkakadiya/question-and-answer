@@ -8,14 +8,14 @@ nestjs libraries (2024): [link](https://docs.nestjs.com/cli/libraries)
 Run commond 
 nest generate-app in exsiting standard repo.
 
-``
+```
 cd my-project
 nest generate app my-app
 ```
 
 ![image](https://github.com/user-attachments/assets/f005b39c-6870-46cc-9a3c-af81a2ea8ce0)
 
-``
+```
 cd my-project
 nest g library my-library
 ```
