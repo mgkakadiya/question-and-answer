@@ -2,8 +2,86 @@
 ## install Docker
 ## install git
 ## install nvm
+```
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+source ~/.bashrc
+nvm list-remote
+nvm install v14.10.0
+nvm list
+nvm use v14.10.0
+nvm current
+nvm uninstall node_version
+```
 ## install nginx
+ref: https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-20-04
+```
+sudo apt update
+sudo apt install nginx
+# checking status
+systemctl status nginx
+# basic management commands.
+sudo systemctl stop nginx
+sudo systemctl start nginx
+sudo systemctl restart nginx
+sudo systemctl reload nginx
+sudo systemctl disable nginx
+sudo systemctl enable nginx
+sudo nginx -t
+```
+
+### setting up domain
+```
+sudo nano /etc/nginx/sites-available/your_domain
+```
+sample /etc/nginx/sites-available/your_domain file
+```
+server {
+    server_name your_domain www.your_domain;
+    
+    location / {
+        root /opt/apps/<MY_APP>/prod/frontend;
+        try_files $uri $uri/ /index.html;
+        index  index.html index.htm;
+    }
+    
+    location /api/v1 {
+        proxy_pass http://localhost:5050;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "Upgrade";
+        proxy_set_header Host $host;
+
+        # Set the maximum allowed size of the client request body
+        client_max_body_size 310M; # 300 megabytes
+    }
+
+    location /swagger-ui {
+        proxy_pass http://localhost:5050;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "Upgrade";
+        proxy_set_header Host $host;
+
+        # Set the maximum allowed size of the client request body
+        client_max_body_size 10M; # 10 megabytes
+    }
+}
+```
+```
+sudo ln -s /etc/nginx/sites-available/your_domain /etc/nginx/sites-enabled/
+```
+
 ## install certbot
+Ref: https://letsencrypt.org/docs/
+https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-22-04
+```
+sudo snap install core; sudo snap refresh core
+sudo apt remove certbot
+sudo snap install --classic certbot
+# optional sudo ln -s /snap/bin/certbot /usr/bin/certbot
+sudo certbot --nginx -d example.com -d www.example.com
+```
 
 
 # setup dockerise envirnment for shared postgres_db, dockerise nest backend and react UI
