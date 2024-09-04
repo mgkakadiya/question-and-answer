@@ -1,0 +1,16 @@
+# NestJS
+## Monorepo setup
+
+monorepo libraries (2024): [link](https://docs.nestjs.com/cli/monorepo)
+nestjs libraries (2024): [link](https://docs.nestjs.com/cli/libraries)
+
+Run commond 
+nest generate-app in exsiting standard repo.
+
+``
+cd my-project
+nest generate app my-app
+nest g library my-library
+```
+
+
