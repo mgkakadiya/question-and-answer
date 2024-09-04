@@ -1,3 +1,11 @@
+# Instance Setup steps (Install below tools if not exist)
+## install Docker
+## install git
+## install nvm
+## install nginx
+## install certbot
+
+
 # setup dockerise envirnment for shared postgres_db, dockerise nest backend and react UI
 
 ### setup postgres DB
