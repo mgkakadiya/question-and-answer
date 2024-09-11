@@ -7,6 +7,11 @@ CREATE DATABASE <DATABASE_NAME>;
 create user <DATABASE_USER> with encrypted password '<USER_PASSWORD>';
 grant all privileges on database <DATABASE_NAME> to <DATABASE_USER>;
 ALTER USER  <DATABASE_USER> PASSWORD '<NEW_USER_PASSWORD>';
+
+
+# Other setup commonds
+grant USAGE on schema my_schema to service_role;
+grant all on all tables in schema my_schema to service_role;
 ```
 
 ### Validate database
@@ -14,12 +19,34 @@ ALTER USER  <DATABASE_USER> PASSWORD '<NEW_USER_PASSWORD>';
 psql -U <DATABASE_USER> -d <DATABASE_NAME> -h localhost
 ```
 
-### commond
+### commonds
 ```
 psql -h localhost -U <DATABASE_USER> -d <DATABASE>
-\list # List of database
-\c <DATABASE_NAME> # use database
-CREATE SCHEMA [IF NOT EXISTS] schema_name; # create Schema
-\dt # List of tables
+
+# List of database
+\list
+
+# use database
+\c <DATABASE_NAME>
+
+# create Schema
+CREATE SCHEMA [IF NOT EXISTS] schema_name; 
+
+# view  list of the privileges:
+\dn+
+
+# show all available tables in PostgreSQL
+# 1. Using SQL Query
+SELECT * FROM information_schema.tables;
+# or in a particular schema:
+SELECT * FROM information_schema.tables WHERE table_schema = 'schema_name';
+
+# 2 Using psql
+# List of tables
+\dt 
+# In all schemas:
+\dt *.*
+# In a particular schema:
+\dt schema_name.*
 
 ```
