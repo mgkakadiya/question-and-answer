@@ -12,6 +12,9 @@ ALTER USER  <DATABASE_USER> PASSWORD '<NEW_USER_PASSWORD>';
 # Other setup commonds
 grant USAGE on schema my_schema to service_role;
 grant all on all tables in schema my_schema to service_role;
+
+GRANT CREATE ON SCHEMA public TO <DATABASE_USER>;
+GRANT USAGE ON SCHEMA public TO <DATABASE_USER>;
 ```
 
 ### Validate database
