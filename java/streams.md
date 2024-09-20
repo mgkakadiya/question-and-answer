@@ -170,3 +170,28 @@ public class StreamForEachExample {
     }
 }
 ```
+
+
+## 9. Java Code: Count Number of Characters in a Given String Using Stream API
+
+```java
+import java.util.stream.Stream;
+
+public class CharacterCount {
+    public static void main(String[] args) {
+        String input = "Hello, World!";
+        
+        long characterCount = input.chars()
+            .filter(Character::isLetterOrDigit)  // Optionally filter to count only letters and digits
+            .count();
+
+        System.out.println("Number of characters: " + characterCount);  // Output: 10
+    }
+}
+```
+
+### Explanation:
+- `input.chars()` converts the string into an `IntStream` of Unicode code points.
+- `filter(Character::isLetterOrDigit)` is used to filter out any non-letter or non-digit characters. You can remove this line if you want to count all characters.
+- `.count()` returns the number of characters.
+
