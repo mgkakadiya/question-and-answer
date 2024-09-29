@@ -1,3 +1,30 @@
+# List of Questions #
+Performance Improvements
+Database Changes
+Server Migrations and Interfaces
+Relational and Non-Relational Databases
+HTTP Methods and REST APIs
+Promises and Asynchronous Programming
+Cultural Questions
+What is `System.out.println()` and how does it work?
+Are we able to extent arraylist how?
+Memory Leaks and Garbage Collection in Java
+**Q:** How can you detect and fix memory leaks in Java?
+## SDLC (Software Development Life Cycle)
+**Q:** How would you approach SDLC for developing a two-page application?  
+## Non-Functional Requirements
+**Q:** What are non-functional requirements, and how should they be applied?  
+## Java 8 Features
+**Q:** What new features were introduced in Java 8?  
+## REST API Security
+**Q:** How do you secure REST APIs?  
+## Integration Testing vs. System Testing
+**Q:** What is the difference between integration testing and system testing? 
+## 1. Code for Deadlock Execution (One Thread Uses Same Resource)
+## Deadlock Example Code:
+## 2. Deadlock Example Using `Runnable`
+## 3. Code for Writing Every 4th Character from a String
+## 4. Code for Writing the 4th Character from Every Second Word
 
 # Q&A on Various Topics in Java, Spring Boot, React, and DevOps
 
@@ -94,7 +121,7 @@
 - gc(): Suggests that the garbage collector should run.
 - The System class is essential for many common tasks in Java programming, such as reading input, writing output, working with system properties, and interacting with the operating system.
 
-**Q:** are we able to extent arraylist how?
+**Q:** Are we able to extent arraylist how?
 
 **A:** Yes, you can extend the ArrayList class in Java. However, you cannot directly modify the existing ArrayList class, as it is a final class. Instead, you can create a new class that inherits from ArrayList and adds your own custom methods or fields.
 
