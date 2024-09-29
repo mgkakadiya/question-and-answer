@@ -73,6 +73,59 @@
 **Q:** What is `System.out.println()` and how does it work?  
 **A:** 
 - `System` is a class in the `java.lang` package. `out` is a static field within the `System` class of type `PrintStream`, and `println()` is a method of the `PrintStream` class. When you call `System.out.println()`, it prints the argument passed to it and appends a newline.
+- Here are some of the key features of the System class:
+
+  - Fields:
+
+- public static final InputStream in: The standard input stream, typically corresponding to keyboard input.
+- public static final PrintStream out: The standard output stream, typically corresponding to console output.
+- public static final PrintStream err: The standard error stream, typically corresponding to console error output.
+
+  - Methods:
+
+- arraycopy(Object src, int srcPos, Object dest, int destPos, int length): Copies an array of objects from one location to another.
+- currentTimeMillis(): Returns the current time in milliseconds since January 1, 1970, 00:00:00 GMT.
+- nanoTime(): Returns the current time in nanoseconds.
+- exit(int status): Terminates the current Java VM with the specified exit status.
+- getProperty(String key): Retrieves the value of a system property.
+- getProperties(): Returns a Properties object containing all system properties.
+- loadLibrary(String libname): Loads a native library.
+- getenv(String name): Retrieves the value of an environment variable.
+- gc(): Suggests that the garbage collector should run.
+- The System class is essential for many common tasks in Java programming, such as reading input, writing output, working with system properties, and interacting with the operating system.
+
+**Q:** are we able to extent arraylist how?
+
+**A:** Yes, you can extend the ArrayList class in Java. However, you cannot directly modify the existing ArrayList class, as it is a final class. Instead, you can create a new class that inherits from ArrayList and adds your own custom methods or fields.
+
+- Here's a basic example of extending ArrayList to create a new class called MyArrayList:
+```
+import java.util.ArrayList;
+
+public class MyArrayList extends ArrayList<String> {
+    // Custom methods and fields can be added here
+    public void printAllElements() {
+        for (String element : this) {
+            System.out.println(element);
+        }
+    }
+}
+```
+In this example, MyArrayList inherits all the methods and fields from ArrayList. It also adds a new custom method called printAllElements() that prints all the elements in the list.
+
+You can then create an instance of MyArrayList and use it like any other ArrayList:
+```
+MyArrayList list = new MyArrayList();
+list.add("Hello");
+list.add("world");
+list.printAllElements();
+```
+This will output:
+```
+Hello
+world
+```
+By extending ArrayList, you can create more specialized list implementations that meet your specific needs.
 
 ---
 
@@ -136,4 +189,166 @@
 **A:** 
 - **Integration Testing:** Focuses on verifying the interactions between different modules or components.
 - **System Testing:** Tests the entire system as a whole, ensuring all components work together as expected.
+
+## 1. Code for Deadlock Execution (One Thread Uses Same Resource)
+### Deadlock Example Code:
+```java
+public class DeadlockExample {
+
+    public static void main(String[] args) {
+        // Resources shared between threads
+        final Object resource1 = new Object();
+        final Object resource2 = new Object();
+
+        // Thread 1 tries to lock resource1 and then resource2
+        Thread thread1 = new Thread(() -> {
+            synchronized (resource1) {
+                System.out.println("Thread 1: Locked resource 1");
+
+                // Simulate some work with resource1
+                try { Thread.sleep(100); } catch (InterruptedException e) {}
+
+                System.out.println("Thread 1: Waiting for resource 2");
+
+                synchronized (resource2) {
+                    System.out.println("Thread 1: Locked resource 2");
+                }
+            }
+        });
+
+        // Thread 2 tries to lock resource2 and then resource1
+        Thread thread2 = new Thread(() -> {
+            synchronized (resource2) {
+                System.out.println("Thread 2: Locked resource 2");
+
+                // Simulate some work with resource2
+                try { Thread.sleep(100); } catch (InterruptedException e) {}
+
+                System.out.println("Thread 2: Waiting for resource 1");
+
+                synchronized (resource1) {
+                    System.out.println("Thread 2: Locked resource 1");
+                }
+            }
+        });
+
+        // Start both threads
+        thread1.start();
+        thread2.start();
+    }
+}
+```
+
+---
+
+## 2. Deadlock Example Using `Runnable`
+
+```java
+public class DeadlockRunnableExample {
+
+    public static void main(String[] args) {
+        // Shared resources between threads
+        final Object resource1 = new Object();
+        final Object resource2 = new Object();
+
+        // Runnable task for Thread 1: locks resource1 and then tries to lock resource2
+        Runnable task1 = () -> {
+            synchronized (resource1) {
+                System.out.println("Thread 1: Locked resource 1");
+
+                // Simulate some work with resource1
+                try { Thread.sleep(100); } catch (InterruptedException e) { }
+
+                System.out.println("Thread 1: Waiting for resource 2");
+
+                synchronized (resource2) {
+                    System.out.println("Thread 1: Locked resource 2");
+                }
+            }
+        };
+
+        // Runnable task for Thread 2: locks resource2 and then tries to lock resource1
+        Runnable task2 = () -> {
+            synchronized (resource2) {
+                System.out.println("Thread 2: Locked resource 2");
+
+                // Simulate some work with resource2
+                try { Thread.sleep(100); } catch (InterruptedException e) { }
+
+                System.out.println("Thread 2: Waiting for resource 1");
+
+                synchronized (resource1) {
+                    System.out.println("Thread 2: Locked resource 1");
+                }
+            }
+        };
+
+        // Create and start threads with the Runnable tasks
+        Thread thread1 = new Thread(task1);
+        Thread thread2 = new Thread(task2);
+
+        // Start both threads
+        thread1.start();
+        thread2.start();
+    }
+}
+```
+
+---
+
+## 3. Code for Writing Every 4th Character from a String
+
+```java
+public class EveryFourthCharacter {
+
+    public static void main(String[] args) {
+        // Input string
+        String input = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        
+        // Output every 4th character
+        System.out.println("Every 4th character:");
+        for (int i = 3; i < input.length(); i += 4) {  // Start at index 3 for the 4th character
+            System.out.print(input.charAt(i) + " ");
+        }
+    }
+}
+```
+
+**Sample Output:**
+```
+Every 4th character:
+D H L P T X
+```
+
+---
+
+## 4. Code for Writing the 4th Character from Every Second Word
+
+```java
+public class EverySecondWordFourthCharacter {
+
+    public static void main(String[] args) {
+        // Input string
+        String input = "This is an example string to demonstrate the extraction of every second word's fourth character.";
+        
+        // Split the input string into words
+        String[] words = input.split(" ");
+        
+        // Iterate through every second word and extract the 4th character (if it exists)
+        System.out.println("4th character of every second word:");
+        for (int i = 1; i < words.length; i += 2) {  // Start from the second word (index 1)
+            if (words[i].length() >= 4) {  // Check if the word has at least 4 characters
+                System.out.print(words[i].charAt(3) + " ");  // Print the 4th character (index 3)
+            }
+        }
+    }
+}
+```
+
+**Sample Output:**
+```
+4th character of every second word:
+m t t c
+```
+
 
