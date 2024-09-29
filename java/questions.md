@@ -26,6 +26,13 @@
 - 3. Code for Writing Every 4th Character from a String
 - 4. Code for Writing the 4th Character from Every Second Word
 
+## Thread
+- implemention of "completable feature" in Java
+
+## Authentication
+
+Authentication security validation
+
 # Q&A on Various Topics in Java, Spring Boot, React, and DevOps
 
 ## Performance Improvements
@@ -378,4 +385,262 @@ public class EverySecondWordFourthCharacter {
 m t t c
 ```
 
+## Thread
 
+### implemention of "completable feature" in Java
+
+To implement a "completable feature" in Java, you would typically use CompletableFuture, which is part of the java.util.concurrent package introduced in Java 8. It provides an easy way to handle asynchronous computations without manually dealing with threads.
+
+- Example: Using CompletableFuture
+Let’s assume you are building a feature where you need to make multiple independent API calls asynchronously, process their results, and then combine them when all tasks are complete.
+
+- Key Concepts:
+  - Run Asynchronously: Start a task in the background without blocking the main thread.
+  - Combine Results: Combine results of multiple asynchronous operations.
+  - Handle Exceptions: Handle exceptions in asynchronous computations.
+
+- Basic CompletableFuture Example
+```
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+
+public class CompletableFutureExample {
+
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+        
+        // Example of a simple async computation
+        CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> {
+            // Simulate long-running task (e.g., API call)
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                throw new IllegalStateException(e);
+            }
+            return "Result of the asynchronous computation";
+        });
+        
+        // Non-blocking call, you can continue doing other work
+        System.out.println("Doing other work while the future completes...");
+        
+        // Block and wait for the result
+        String result = future.get();  // This blocks until the future is complete
+        
+        System.out.println("Completed future result: " + result);
+    }
+}
+```
+- CompletableFuture with Chaining
+  You can chain multiple asynchronous tasks together using methods like thenApply(), thenCompose(), and thenCombine().
+
+  - thenApply: Transforms the result of a CompletableFuture.
+  - thenCombine: Combines the result of two CompletableFutures.
+
+```
+import java.util.concurrent.CompletableFuture;
+
+public class CompletableFeatureChaining {
+
+    public static void main(String[] args) throws Exception {
+
+        CompletableFuture<Integer> future1 = CompletableFuture.supplyAsync(() -> {
+            // Simulate a time-consuming task
+            System.out.println("Task 1 - Fetching number");
+            return 5;
+        });
+
+        CompletableFuture<Integer> future2 = CompletableFuture.supplyAsync(() -> {
+            System.out.println("Task 2 - Fetching number");
+            return 10;
+        });
+
+        // Combine the results of both futures
+        CompletableFuture<Integer> combinedFuture = future1.thenCombine(future2, (num1, num2) -> {
+            System.out.println("Task 3 - Combining results");
+            return num1 + num2;
+        });
+
+        // Wait for the combined result
+        System.out.println("Combined result: " + combinedFuture.get());
+    }
+}
+```
+- Exception Handling: You can handle exceptions in CompletableFuture using methods like exceptionally() or handle().
+```
+import java.util.concurrent.CompletableFuture;
+
+public class CompletableFutureExceptionHandling {
+
+    public static void main(String[] args) {
+        CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> {
+            // Simulate an exception
+            if (true) {
+                throw new RuntimeException("Something went wrong!");
+            }
+            return "Success!";
+        }).exceptionally(ex -> {
+            System.out.println("Exception occurred: " + ex.getMessage());
+            return "Recovered from failure";
+        });
+
+        // Print the result
+        System.out.println(future.join());  // Blocks and returns the result
+    }
+}
+
+```
+- Combining Multiple CompletableFutures: If you have multiple CompletableFutures and you want to wait for all of them to complete, you can use CompletableFuture.allOf():
+
+```
+import java.util.concurrent.CompletableFuture;
+
+public class CompletableFutureAllOf {
+
+    public static void main(String[] args) throws Exception {
+
+        CompletableFuture<Void> future1 = CompletableFuture.runAsync(() -> {
+            System.out.println("Task 1 is running");
+        });
+
+        CompletableFuture<Void> future2 = CompletableFuture.runAsync(() -> {
+            System.out.println("Task 2 is running");
+        });
+
+        CompletableFuture<Void> future3 = CompletableFuture.runAsync(() -> {
+            System.out.println("Task 3 is running");
+        });
+
+        // Wait for all futures to complete
+        CompletableFuture<Void> allFutures = CompletableFuture.allOf(future1, future2, future3);
+
+        // Block until all tasks are done
+        allFutures.join();
+        System.out.println("All tasks are completed!");
+    }
+}
+
+```
+- Advanced Use Case: HTTP Requests with CompletableFuture: Imagine you need to make two API calls and combine their results.
+  ```
+  import java.util.concurrent.CompletableFuture;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.net.URI;
+
+public class CompletableFutureWithHttp {
+
+    public static void main(String[] args) throws Exception {
+
+        HttpClient client = HttpClient.newHttpClient();
+
+        CompletableFuture<String> future1 = CompletableFuture.supplyAsync(() -> {
+            try {
+                HttpRequest request = HttpRequest.newBuilder()
+                        .uri(new URI("https://jsonplaceholder.typicode.com/posts/1"))
+                        .build();
+                HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+                return response.body();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        CompletableFuture<String> future2 = CompletableFuture.supplyAsync(() -> {
+            try {
+                HttpRequest request = HttpRequest.newBuilder()
+                        .uri(new URI("https://jsonplaceholder.typicode.com/posts/2"))
+                        .build();
+                HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+                return response.body();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        // Combine the results of both API calls
+        CompletableFuture<String> combinedFuture = future1.thenCombine(future2, (response1, response2) -> {
+            return "Combined Result: \n" + response1 + "\n" + response2;
+        });
+
+        // Block and get the final result
+        System.out.println(combinedFuture.get());
+    }
+}
+```
+
+### Conclusion: Key Methods in CompletableFuture
+
+- supplyAsync(): Runs a task asynchronously and returns a result.
+- thenApply(): Transforms the result of a CompletableFuture.
+- thenCombine(): Combines the results of two CompletableFutures.
+- exceptionally(): Handles exceptions.
+- allOf(): Waits for all the CompletableFutures to complete
+
+## Auth Security Validation in Java and Spring Boot
+
+### 1. **What is Authentication and Authorization?**
+- **Authentication**: The process of verifying the identity of a user, often by checking credentials like a username and password.
+- **Authorization**: Determines what actions an authenticated user is allowed to perform within the system.
+
+### 2. **What are some common authentication mechanisms?**
+- **Basic Authentication**: Involves sending the username and password encoded in Base64 over HTTP headers. It's simple but not secure unless used over HTTPS.
+- **OAuth2**: An open standard for token-based authentication and authorization. OAuth2 is widely used in REST APIs and mobile applications.
+- **JWT (JSON Web Tokens)**: A compact, self-contained way to securely transmit information between parties as a JSON object. It's commonly used for authorization in modern web applications.
+
+### 3. **How does Spring Security handle Authentication and Authorization?**
+Spring Security is a powerful framework for securing Spring-based applications. It provides support for multiple authentication mechanisms.
+
+- **Authentication**: Spring Security provides `AuthenticationManager` and `AuthenticationProvider` interfaces to handle different types of authentication mechanisms. Credentials are validated against the configured data source (e.g., in-memory, database, LDAP).
+  
+- **Authorization**: Once authenticated, Spring Security applies access control rules based on roles and authorities. This is managed through the `@PreAuthorize`, `@Secured`, or through configuration using the `HttpSecurity` object.
+
+### 4. **How can you secure REST APIs?**
+To secure REST APIs in Spring Boot:
+- Use **OAuth2** or **JWT** for stateless authentication.
+- Implement **CORS (Cross-Origin Resource Sharing)** policies to control which domains can access your APIs.
+- Apply **rate limiting** to prevent abuse and Distributed Denial-of-Service (DDoS) attacks.
+- Use **HTTPS** to encrypt data in transit.
+  
+#### Example of JWT Security in Spring Boot:
+```java
+// SecurityConfig.java
+@EnableWebSecurity
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+            .csrf().disable()
+            .authorizeRequests()
+            .antMatchers("/api/auth/**").permitAll()
+            .anyRequest().authenticated()
+            .and()
+            .addFilter(new JwtAuthenticationFilter(authenticationManager()))
+            .addFilter(new JwtAuthorizationFilter(authenticationManager()));
+    }
+}
+```
+### 5. What methods can be used to validate JWT Tokens?
+- Signature Verification: JWT tokens are signed using a secret key. Validate the signature to ensure the token is untampered.
+- Token Expiry: Check the token's expiration (exp) claim to ensure it is still valid.
+- Custom Claims: Verify custom claims within the token to meet application-specific requirements (e.g., roles, scopes).
+
+### 6. How to handle Password Encryption?
+Never store passwords in plain text. Use encryption techniques such as:
+
+- BCrypt: A password hashing function that includes a salt to guard against rainbow table attacks.
+Example of Using BCrypt in Spring Boot:
+```java
+@Bean
+public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
+}
+```
+
+### 7. How to Protect Against Common Security Threats?
+- SQL Injection: Use prepared statements to avoid malicious SQL queries.
+- Cross-Site Scripting (XSS): Sanitize inputs and use output encoding to prevent XSS attacks.
+- Cross-Site Request Forgery (CSRF): Enable CSRF protection in forms and validate the CSRF token.
+- Session Hijacking: Use HttpOnly and Secure flags for cookies and apply session timeout policies.
+
+### 
