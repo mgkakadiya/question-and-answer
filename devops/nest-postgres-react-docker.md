@@ -30,6 +30,10 @@ sudo systemctl enable nginx
 sudo nginx -t
 ```
 
+for permission of all folders, follow steps from here.
+
+#### https://stackoverflow.com/questions/25774999/nginx-stat-failed-13-permission-denied/25776092#25776092
+
 ### setting up domain
 ```
 sudo nano /etc/nginx/sites-available/your_domain
