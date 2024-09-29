@@ -1,30 +1,30 @@
 # List of Questions #
-Performance Improvements
-Database Changes
-Server Migrations and Interfaces
-Relational and Non-Relational Databases
-HTTP Methods and REST APIs
-Promises and Asynchronous Programming
-Cultural Questions
-What is `System.out.println()` and how does it work?
-Are we able to extent arraylist how?
-Memory Leaks and Garbage Collection in Java
-**Q:** How can you detect and fix memory leaks in Java?
+- Performance Improvements
+- Database Changes
+- Server Migrations and Interfaces
+- Relational and Non-Relational Databases
+- HTTP Methods and REST APIs
+- Promises and Asynchronous Programming
+- Cultural Questions
+- What is `System.out.println()` and how does it work?
+- Are we able to extent arraylist how?
+- Memory Leaks and Garbage Collection in Java
+- How can you detect and fix memory leaks in Java?
 ## SDLC (Software Development Life Cycle)
-**Q:** How would you approach SDLC for developing a two-page application?  
+- **Q:** How would you approach SDLC for developing a two-page application?  
 ## Non-Functional Requirements
-**Q:** What are non-functional requirements, and how should they be applied?  
+- **Q:** What are non-functional requirements, and how should they be applied?  
 ## Java 8 Features
-**Q:** What new features were introduced in Java 8?  
+- **Q:** What new features were introduced in Java 8?  
 ## REST API Security
-**Q:** How do you secure REST APIs?  
+- **Q:** How do you secure REST APIs?  
 ## Integration Testing vs. System Testing
-**Q:** What is the difference between integration testing and system testing? 
+- **Q:** What is the difference between integration testing and system testing? 
 ## 1. Code for Deadlock Execution (One Thread Uses Same Resource)
-## Deadlock Example Code:
-## 2. Deadlock Example Using `Runnable`
-## 3. Code for Writing Every 4th Character from a String
-## 4. Code for Writing the 4th Character from Every Second Word
+### Deadlock Example Code:
+### 2. Deadlock Example Using `Runnable`
+- 3. Code for Writing Every 4th Character from a String
+- 4. Code for Writing the 4th Character from Every Second Word
 
 # Q&A on Various Topics in Java, Spring Boot, React, and DevOps
 
