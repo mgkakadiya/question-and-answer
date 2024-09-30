@@ -1,0 +1,109 @@
+pipeline {
+  agent any
+  stages {
+    stage('Continues Integration - Lint and Test') {
+      agent {
+          docker { image 'node:18' }
+      }
+      steps {
+        sh 'node --version'
+      }
+    }
+    stage('Develop - Continous Integration - Docker build') {
+      when {
+        anyOf {
+          expression { env.GIT_BRANCH == 'origin/develop' }
+          expression { env.GIT_BRANCH == 'myapp_Backend_Branch/develop' }
+        }
+      }
+      steps {
+        echo 'Deploying'
+        script {
+          docker.withRegistry('https://docker.com/', 'docker.com') {
+            docker.build('myapp-backend').push('latest-dev')
+          }
+          sshPublisher(
+            continueOnError: false, failOnError: true,
+            publishers: [
+              sshPublisherDesc(
+                configName: 'myapp-e2e',
+                verbose: true,
+                transfers: [
+                  sshTransfer(
+                    execCommand: 'cd /home/ubuntu/apps/myapp/dev; docker stop myapp-dev || true'
+                  ),
+                  sshTransfer(
+                    execCommand: 'cd /home/ubuntu/apps/myapp/dev; docker rm myapp-dev || true'
+                  ),
+                  sshTransfer(
+                    execCommand: 'cd /home/ubuntu/apps/myapp/dev; docker pull docker.com/myapp-backend:latest-dev'
+                  ),
+                  sshTransfer(
+                    execCommand: 'cd /home/ubuntu/apps/myapp/dev; docker run -d -p 5050:8080 -v /home/ubuntu/apps/myapp/dev/logs:/opt/app/logs -v /home/ubuntu/apps/myapp/dev/certs:/opt/app/certs --env-file .env --name myapp-dev docker.com/myapp-backend:latest-dev'
+                  )
+                ]
+              )
+            ]
+          )
+        }
+      }
+    }
+    stage('Production - Continous Integration - Docker build') {
+      when {
+        anyOf {
+          expression { env.GIT_BRANCH == 'origin/main' }
+          expression { env.GIT_BRANCH == 'myapp_Backend_V2/main' }
+        }
+      }
+      steps {
+        echo 'Deploying'
+        script {
+          docker.withRegistry('https://docker.com/', 'docker.com') {
+            docker.build('myapp-backend').push('latest-prod-v3')
+          }
+          sshPublisher(
+            continueOnError: false, failOnError: true,
+            publishers: [
+              sshPublisherDesc(
+                configName: 'myapp-e2e',
+                verbose: true,
+                transfers: [
+                  sshTransfer(
+                    execCommand: 'cd /home/ubuntu/apps/myapp/prod-v3; docker stop myapp-prod-v3 || true'
+                  ),
+                  sshTransfer(
+                    execCommand: 'cd /home/ubuntu/apps/myapp/prod-v3; docker rm myapp-prod-v3 || true'
+                  ),
+                  sshTransfer(
+                    execCommand: 'cd /home/ubuntu/apps/myapp/prod-v3; docker pull docker.com/myapp-backend:latest-prod-v3'
+                  ),
+                  sshTransfer(
+                    execCommand: 'cd /home/ubuntu/apps/myapp/prod-v3; docker run -d -p 6060:8080 -v /home/ubuntu/apps/myapp/prod-v3/logs:/opt/app/logs -v /home/ubuntu/apps/myapp/prod-v3/certs:/opt/app/certs --env-file .env --name myapp-prod-v3 docker.com/myapp-backend:latest-prod-v3'
+                  )
+                ]
+              )
+            ]
+          )
+        }
+      }
+    }
+  }
+  post {
+        always {
+      sh 'printenv'
+        }
+        success {
+      echo 'This will run only if successful build'
+        }
+        failure {
+      echo 'This will run only if failed'
+        }
+        unstable {
+      echo 'This will run only if the run was marked as unstable'
+        }
+        changed {
+      echo 'This will run only if the state of the Pipeline has changed'
+      echo 'For example, if the Pipeline was previously failing but is now successful'
+        }
+  }
+}
