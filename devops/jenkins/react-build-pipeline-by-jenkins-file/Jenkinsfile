@@ -58,11 +58,11 @@ pipeline {
                         continueOnError: false, failOnError: true,
                         publishers: [
                             sshPublisherDesc(
-                                configName: 'arena9-dev-app-instance',
+                                configName: 'dev-app-instance',
                                 verbose: true,
                                 transfers: [
                                     sshTransfer(
-                                        remoteDirectory: '/app/arena9/frontend',
+                                        remoteDirectory: '/app/dev/frontend',
                                         sourceFiles: 'build/**',
                                         removePrefix: 'build/'
                                     ),
