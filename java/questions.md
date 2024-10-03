@@ -429,6 +429,7 @@ public class CompletableFutureExample {
     }
 }
 ```
+
 - CompletableFuture with Chaining
   You can chain multiple asynchronous tasks together using methods like thenApply(), thenCompose(), and thenCombine().
 
@@ -464,6 +465,7 @@ public class CompletableFeatureChaining {
     }
 }
 ```
+
 - Exception Handling: You can handle exceptions in CompletableFuture using methods like exceptionally() or handle().
 ```
 import java.util.concurrent.CompletableFuture;
@@ -486,8 +488,8 @@ public class CompletableFutureExceptionHandling {
         System.out.println(future.join());  // Blocks and returns the result
     }
 }
-
 ```
+
 - Combining Multiple CompletableFutures: If you have multiple CompletableFutures and you want to wait for all of them to complete, you can use CompletableFuture.allOf():
 
 ```
@@ -519,9 +521,11 @@ public class CompletableFutureAllOf {
 }
 
 ```
+
 - Advanced Use Case: HTTP Requests with CompletableFuture: Imagine you need to make two API calls and combine their results.
-  ```
-  import java.util.concurrent.CompletableFuture;
+
+```
+import java.util.concurrent.CompletableFuture;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
