@@ -643,4 +643,9 @@ public PasswordEncoder passwordEncoder() {
 - Cross-Site Request Forgery (CSRF): Enable CSRF protection in forms and validate the CSRF token.
 - Session Hijacking: Use HttpOnly and Secure flags for cookies and apply session timeout policies.
 
-### 
+### Flat map
+### 2 sort array, mearge into one with minimum complexcity.
+### click on points and give undo it (React)
+### auto suggestion react
+### Rolling balls algoritham
+
