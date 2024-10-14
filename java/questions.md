@@ -647,6 +647,293 @@ public PasswordEncoder passwordEncoder() {
 - Cross-Site Request Forgery (CSRF): Enable CSRF protection in forms and validate the CSRF token.
 - Session Hijacking: Use HttpOnly and Secure flags for cookies and apply session timeout policies.
 
+## Core Java Concepts
+1. **Explain the Java Memory Model. What are the differences between stack and heap memory?**
+  - The Java Memory Model defines how threads interact through memory and what behaviors are allowed in concurrent execution.
+  - **Stack Memory:** Used for static memory allocation, stores primitive data types and object references, follows LIFO (Last In First Out) order.
+  - **Heap Memory:** Used for dynamic memory allocation, stores objects and their instance variables, and is managed by the garbage collector.
+
+2. **What are the differences between `HashMap` and `ConcurrentHashMap`? When would you choose one over the other?**
+  - `HashMap` is not thread-safe, and multiple threads can cause data corruption if accessed concurrently. `ConcurrentHashMap` is thread-safe and allows concurrent read and write operations.
+  - Choose `HashMap` for single-threaded applications for better performance; choose `ConcurrentHashMap` for multi-threaded applications needing safe concurrent access.
+
+3. **Describe the Java Stream API. How does it differ from traditional collections processing?**
+  - The Java Stream API allows functional-style operations on streams of elements, enabling operations like map, filter, and reduce.
+  - It differs from traditional collections processing by enabling operations on collections in a more declarative and concise manner and providing lazy evaluation, which improves performance.
+
+4. **What is the difference between `==` and `equals()` in Java? How would you override `equals()` and `hashCode()`?**
+  - `==` checks for reference equality (i.e., whether two references point to the same object), while `equals()` checks for value equality (i.e., whether two objects are logically equivalent).
+  - To override `equals()`, compare the fields of the objects to determine if they are equal. When overriding `equals()`, you must also override `hashCode()` to maintain the contract between the two.
+
+5. **Explain the concept of Java Generics. Why are they useful? Can you provide an example of a generic class?**
+  - Java Generics enable types (classes and interfaces) to be parameters when defining classes, interfaces, and methods, allowing for code reusability and type safety.
+  - Example of a generic class:
+    ```java
+    public class Box<T> {
+        private T item;
+        public void setItem(T item) { this.item = item; }
+        public T getItem() { return item; }
+    }
+    ```
+
+## Object-Oriented Programming (OOP)
+1. **Can you explain the four principles of OOP? Provide examples of each in Java.**
+  - **Encapsulation:** Bundling data (fields) and methods (functions) together in a class. Example: Using private fields with public getter/setter methods.
+  - **Inheritance:** Mechanism where one class inherits the fields and methods of another. Example: `class Dog extends Animal {}`.
+  - **Polymorphism:** Ability for different classes to be treated as instances of the same class through interfaces or inheritance. Example: method overriding.
+  - **Abstraction:** Hiding complex implementation details and showing only essential features. Example: abstract classes and interfaces.
+
+2. **What is polymorphism in Java? How does method overloading differ from method overriding?**
+  - Polymorphism allows methods to do different things based on the object that it is acting upon.
+  - **Method Overloading:** Same method name with different parameters within the same class.
+  - **Method Overriding:** Same method name and parameters in a subclass that provides a specific implementation of a method defined in its superclass.
+
+3. **How do you achieve abstraction in Java? Provide an example using abstract classes and interfaces.**
+  - Abstraction in Java is achieved through abstract classes and interfaces.
+  - Example of an abstract class:
+    ```java
+    abstract class Animal {
+        abstract void sound(); // abstract method
+    }
+    class Dog extends Animal {
+        void sound() { System.out.println("Bark"); }
+    }
+    ```
+
+## Concurrency and Multithreading
+1. **How do you create a thread in Java? Discuss the differences between extending `Thread` and implementing `Runnable`.**
+  - A thread can be created by extending the `Thread` class or implementing the `Runnable` interface.
+  - **Extending `Thread`:** The class inherits from `Thread`, and you override the `run()` method. Example:
+    ```java
+    class MyThread extends Thread {
+        public void run() { System.out.println("Thread running"); }
+    }
+    ```
+  - **Implementing `Runnable`:** Implement the `Runnable` interface and provide the `run()` method. Example:
+    ```java
+    class MyRunnable implements Runnable {
+        public void run() { System.out.println("Runnable running"); }
+    }
+    ```
+  - Using `Runnable` is preferred for better design as it allows for separation of concerns and can be used with multiple threads.
+
+2. **What are `synchronized` methods and blocks? How do they differ from `ReentrantLock`?**
+  - **Synchronized methods/blocks:** Ensures that only one thread can access the method/block at a time, preventing concurrent access.
+  - **ReentrantLock:** An implementation of the Lock interface that provides more advanced locking capabilities than synchronized methods. It allows for timed locking, interruptible locks, and can be locked by the same thread multiple times.
+  - ReentrantLock provides more flexibility and features, while synchronized is simpler to use.
+
+3. **Explain the producer-consumer problem. How would you implement it in Java using `BlockingQueue`?**
+  - The producer-consumer problem is a classic concurrency issue where one or more producers generate data and one or more consumers use that data.
+  - Implementation using `BlockingQueue`:
+    ```java
+    BlockingQueue<Integer> queue = new ArrayBlockingQueue<>(10);
+    // Producer
+    new Thread(() -> {
+        while (true) {
+            try {
+                queue.put(item); // Add item to queue
+            } catch (InterruptedException e) { Thread.currentThread().interrupt(); }
+        }
+    }).start();
+    // Consumer
+    new Thread(() -> {
+        while (true) {
+            try {
+                Integer item = queue.take(); // Retrieve item from queue
+            } catch (InterruptedException e) { Thread.currentThread().interrupt(); }
+        }
+    }).start();
+    ```
+
+4. **What is the Java `CompletableFuture`? How does it improve upon traditional approaches to asynchronous programming?**
+  - `CompletableFuture` is a class that represents a future result of an asynchronous computation. It allows for non-blocking operations and can be combined with other futures.
+  - It improves upon traditional approaches by providing a fluent API for combining multiple asynchronous computations, handling exceptions, and making code more readable and maintainable.
+
+## Design Patterns
+1. **Explain the Singleton Design Pattern. How would you implement it in a thread-safe manner?**
+  - The Singleton Design Pattern ensures that a class has only one instance and provides a global point of access to it.
+  - A thread-safe implementation can be done using double-checked locking:
+    ```java
+    public class Singleton {
+        private static volatile Singleton instance;
+        private Singleton() {}
+        public static Singleton getInstance() {
+            if (instance == null) {
+                synchronized (Singleton.class) {
+                    if (instance == null) {
+                        instance = new Singleton();
+                    }
+                }
+            }
+            return instance;
+        }
+    }
+    ```
+
+2. **What is the Factory Design Pattern? Provide a scenario where you would use it.**
+  - The Factory Design Pattern defines an interface for creating objects but lets subclasses decide which class to instantiate.
+  - It is useful in scenarios where the exact type of object to create is determined at runtime, such as creating different types of payment processors based on user selection (e.g., credit card, PayPal).
+
+3. **Can you explain the Observer Design Pattern? How would you implement it in Java?**
+  - The Observer Design Pattern defines a one-to-many dependency between objects so that when one object changes state, all its dependents are notified and updated automatically.
+  - Implementation example:
+    ```java
+    interface Observer {
+        void update(String message);
+    }
+    class Subject {
+        private List<Observer> observers = new ArrayList<>();
+        public void addObserver(Observer observer) { observers.add(observer); }
+        public void notifyObservers(String message) {
+            for (Observer observer : observers) {
+                observer.update(message);
+            }
+        }
+    }
+    ```
+
+## Spring Framework (if applicable)
+1. **What are the differences between Spring and Spring Boot?**
+  - Spring is a comprehensive framework for enterprise Java applications, while Spring Boot is a subproject that simplifies the setup and development of new Spring applications by providing out-of-the-box configurations and embedded servers.
+
+2. **Explain Dependency Injection in Spring. How does it improve code quality?**
+  - Dependency Injection is a design pattern that allows the creation of dependent objects outside of a class and provides those objects to a class in various ways (constructor injection, setter injection).
+  - It improves code quality by promoting loose coupling, making the code easier to test, maintain, and extend.
+
+3. **What is the purpose of the `@Transactional` annotation? How does it work?**
+  - The `@Transactional` annotation is used to define the scope of a transaction in Spring, ensuring that multiple operations are performed within a single transaction context.
+  - When a method annotated with `@Transactional` is executed, Spring manages the transaction, rolling back if any
+
+### Coding Challenges
+1. **Reverse a String in Java**
+```java
+```
+2. Write a Java function to check if a string is a palindrome.
+   A palindrome is a string that reads the same forward and backward.
+```java
+public class PalindromeChecker {
+    public static boolean isPalindrome(String str) {
+        int left = 0;
+        int right = str.length() - 1;
+        
+        while (left < right) {
+            if (str.charAt(left) != str.charAt(right)) {
+                return false;
+            }
+            left++;
+            right--;
+        }
+        return true;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(isPalindrome("racecar")); // true
+        System.out.println(isPalindrome("hello"));   // false
+    }
+}
+```
+2. Implement a method to find the longest substring without repeating characters.
+   This problem can be solved using a sliding window approach. 
+```java
+import java.util.HashSet;
+import java.util.Set;
+
+public class LongestSubstring {
+    public static int lengthOfLongestSubstring(String s) {
+        int n = s.length();
+        int maxLength = 0;
+        int left = 0;
+        Set<Character> set = new HashSet<>();
+
+        for (int right = 0; right < n; right++) {
+            while (set.contains(s.charAt(right))) {
+                set.remove(s.charAt(left));
+                left++;
+            }
+            set.add(s.charAt(right));
+            maxLength = Math.max(maxLength, right - left + 1);
+        }
+        return maxLength;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(lengthOfLongestSubstring("abcabcbb")); // 3
+        System.out.println(lengthOfLongestSubstring("bbbbb"));    // 1
+    }
+}
+```
+3. Write a program to merge two sorted arrays into a single sorted array.
+      This can be done using a two-pointer technique.
+```java
+import java.util.Arrays;
+
+public class MergeSortedArrays {
+    public static int[] merge(int[] arr1, int[] arr2) {
+        int n1 = arr1.length;
+        int n2 = arr2.length;
+        int[] mergedArray = new int[n1 + n2];
+        int i = 0, j = 0, k = 0;
+
+        while (i < n1 && j < n2) {
+            if (arr1[i] <= arr2[j]) {
+                mergedArray[k++] = arr1[i++];
+            } else {
+                mergedArray[k++] = arr2[j++];
+            }
+        }
+
+        while (i < n1) {
+            mergedArray[k++] = arr1[i++];
+        }
+
+        while (j < n2) {
+            mergedArray[k++] = arr2[j++];
+        }
+
+        return mergedArray;
+    }
+
+    public static void main(String[] args) {
+        int[] arr1 = {1, 3, 5, 7};
+        int[] arr2 = {2, 4, 6, 8};
+        System.out.println(Arrays.toString(merge(arr1, arr2))); // [1, 2, 3, 4, 5, 6, 7, 8]
+    }
+}
+```
+5. Implement a function to perform depth-first search (DFS) on a binary tree.
+   DFS can be implemented using recursion.
+```java
+class TreeNode {
+    int val;
+    TreeNode left, right;
+
+    TreeNode(int val) {
+        this.val = val;
+        left = right = null;
+    }
+}
+
+public class DepthFirstSearch {
+    public static void dfs(TreeNode node) {
+        if (node == null) {
+            return;
+        }
+        System.out.print(node.val + " ");
+        dfs(node.left);
+        dfs(node.right);
+    }
+
+    public static void main(String[] args) {
+        TreeNode root = new TreeNode(1);
+        root.left = new TreeNode(2);
+        root.right = new TreeNode(3);
+        root.left.left = new TreeNode(4);
+        root.left.right = new TreeNode(5);
+
+        dfs(root); // Output: 1 2 4 5 3
+    }
+}
+```
 ### Flat map
 ### 2 sort array, mearge into one with minimum complexcity.
 ### click on points and give undo it (React)
