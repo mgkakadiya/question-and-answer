@@ -13,6 +13,60 @@ nvm use v14.10.0
 nvm current
 nvm uninstall node_version
 ```
+### How to Install NVM (Node Version Manager) for Windows
+### Steps to Install NVM on Windows:
+
+1. **Download NVM for Windows**:
+   - Go to the official NVM for Windows GitHub repository: [NVM for Windows Releases](https://github.com/coreybutler/nvm-windows/releases).
+   - Download the latest **nvm-setup.zip** file.
+
+2. **Install NVM**:
+   - Extract the ZIP file and run the `nvm-setup.exe` installer.
+   - Follow the installation prompts. The default location is typically `C:\Program Files\nvm`, but you can change it if needed.
+   - After installation, NVM will automatically create a folder for node versions at `C:\Program Files\nodejs`.
+
+3. **Configure Environment Variables**:
+   - During installation, NVM may modify your `PATH` automatically, but if it doesn't, add the following paths manually:
+     - `C:\Program Files\nvm` (for NVM).
+     - `C:\Program Files\nodejs` (for Node.js versions).
+
+4. **Verify Installation**:
+   - Open a new Command Prompt or PowerShell and run:
+     ```bash
+     nvm version
+     ```
+     If installed correctly, this should display the NVM version.
+
+5. **Install a Node.js Version**:
+   - To install a specific version of Node.js, use the command:
+     ```bash
+     nvm install <version>
+     ```
+     For example, to install Node.js version 16.13.0:
+     ```bash
+     nvm install 16.13.0
+     ```
+
+6. **Use a Specific Node.js Version**:
+   - To use the installed Node.js version:
+     ```bash
+     nvm use 16.13.0
+     ```
+     Verify by running:
+     ```bash
+     node -v
+     ```
+
+7. **Optional**: Set a Default Node Version:
+   - To set a default version globally, use:
+     ```bash
+     nvm use <version> default
+     ```
+
+---
+
+You now have NVM set up on your Windows machine to manage multiple Node.js versions!
+
 ## install nginx
 ref: https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-20-04
 ```
