@@ -1,16 +1,16 @@
-## Reading list
+# Reading list
 
 https://github.com/Henrywu573/Catalogue
 
-## OpenAI
+# OpenAI
 
 https://github.com/openai/openai-structured-outputs-samples/tree/main/conversational-assistant
 
-## RoadMap
+# RoadMap
 
 - https://roadmap.sh/roadmaps
 
-# Skill based Roadmap
+### Skill based Roadmap
 - https://roadmap.sh/java
 - https://roadmap.sh/kubernetes
 - https://roadmap.sh/aws
@@ -21,7 +21,7 @@ https://github.com/openai/openai-structured-outputs-samples/tree/main/conversati
 - https://roadmap.sh/code-review
 - https://roadmap.sh/design-system
 
-# Role based roadmap
+### Role based roadmap
 
 - https://roadmap.sh/r/dsa-in-c-39f9n
 - https://roadmap.sh/r/back-end-technical-roadmap
