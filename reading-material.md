@@ -20,6 +20,9 @@ https://github.com/openai/openai-structured-outputs-samples/tree/main/conversati
 - https://roadmap.sh/system-design
 - https://roadmap.sh/code-review
 - https://roadmap.sh/design-system
+- https://roadmap.sh/spring-boot
+- https://roadmap.sh/postgresql-dba
+- https://roadmap.sh/mongodb
 
 ### Role based roadmap
 
@@ -28,4 +31,5 @@ https://github.com/openai/openai-structured-outputs-samples/tree/main/conversati
 - https://roadmap.sh/r/solution-architecture-roadmap-marcelo
 - https://roadmap.sh/r/developer-cv-best-practices
 - https://roadmap.sh/r/infrastructure-architect-copy-1wcge
+
   
